@@ -1,14 +1,14 @@
 import React from 'react';
-import { render } from 'react-dom'
-import { BrowserRouter as Router } from 'react-router-dom'
+import ReactDOM from 'react-dom'
+import { Provider } from 'react-redux';
 import Root from './containers/Root'
 import configureStore from './store/configureStore'
 
 const store = configureStore();
 
-render( 
-    <Router>
+ReactDOM.render(
+    <Provider store={store}>
         <Root store={store} />
-    </Router>,
+    </Provider>,
     document.getElementById('root')
 );
