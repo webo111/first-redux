@@ -2,6 +2,7 @@
  * http通用工具函数
  */
 import axios from 'axios';
+import qs from 'qs';
 import { message } from 'antd';
 
 /**
@@ -24,7 +25,7 @@ export const get = ({url, msg = '接口异常', headers}) =>
  * @param headers   接口所需header配置
  */
 export const post = ({url, data, msg = '接口异常', headers}) =>
-    axios.post(url, data, headers).then(res => res.data).catch(err => {
+    axios.post(url, qs.stringify(data), headers).then(res => res.data).catch(err => {
         console.log(err);
         message.warn(msg);
     });

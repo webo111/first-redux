@@ -25,7 +25,7 @@ export const admin = () => get({url: config.MOCK_AUTH_ADMIN});
 export const guest = () => get({url: config.MOCK_AUTH_VISITOR});
 
 //登录
-export const login = (params) => post({url: config.MOCK_AUTH_ADMIN, data: params
+export const login = (params) => post({url: config.MOCK_AUTH_ADMIN, data: params, headers: { 'content-type': 'application/x-www-form-urlencoded' }
 }).then(function (response) {
     return response.data;
 }).catch(function (error) {
