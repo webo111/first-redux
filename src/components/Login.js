@@ -2,21 +2,22 @@ import React from 'react';
 import { Form, Icon, Input, Button, Checkbox } from 'antd';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { fetchData, receiveData } from '../actions';
+import { fetchAuthData, receiveAuthData } from '../actions';
 import '../style/login.less';
 
 const FormItem = Form.Item;
 
 class Login extends React.Component {
     componentWillMount() {
-        const { receiveData } = this.props;
-        receiveData(null, 'auth');
+        const { receiveAuthData } = this.props;
+        receiveAuthData(null, 'auth');
     }
     componentWillReceiveProps(nextProps) {
         const { auth: nextAuth = {} } = nextProps;
+        console.info(nextAuth);
         const { history } = this.props;
-        if (nextAuth.data && nextAuth.data.uid) {   // 判断是否登陆
-            localStorage.setItem('user', JSON.stringify(nextAuth.data));
+        if (nextAuth.data && nextAuth.data.user.no) {   // 判断是否登陆
+            localStorage.setItem('user', JSON.stringify(nextAuth.data.user));
             history.push('/');
         }
     }
@@ -25,10 +26,8 @@ class Login extends React.Component {
         this.props.form.validateFields((err, values) => {
             if (!err) {
                 console.log('Received values of form: ', values);
-                const { fetchData } = this.props;
-                console.info('========================');
-                let data = fetchData({funcName: 'login', params: {no:'wemin', password: '1234'}, stateName: 'auth'});
-                console.info(data);
+                const { fetchAuthData } = this.props;
+                fetchAuthData({funcName: 'login', params: {no:values.userName, password: values.password}, stateName: 'auth'});
             }
         });
     };
@@ -79,12 +78,12 @@ class Login extends React.Component {
 }
 
 const mapStateToPorps = state => {
-    const { auth } = state.httpData;
+    const { auth } = state.auth;
     return { auth };
 };
 const mapDispatchToProps = dispatch => ({
-    fetchData: bindActionCreators(fetchData, dispatch),
-    receiveData: bindActionCreators(receiveData, dispatch)
+    fetchAuthData: bindActionCreators(fetchAuthData, dispatch),
+    receiveAuthData: bindActionCreators(receiveAuthData, dispatch)
 });
 
 
